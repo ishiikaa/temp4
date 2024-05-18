@@ -1,0 +1,43 @@
+def optimal_page_replacement(pages, capacity):
+    cache = []  # This will hold the current pages in memory
+    page_faults = 0  # This will count the number of page faults
+
+    for i in range(len(pages)):
+        # If the current page is not in the cache
+        if pages[i] not in cache:
+            page_faults += 1  # We have a page fault
+
+            # If there is still space in the cache
+            if len(cache) < capacity:
+                cache.append(pages[i])  # Add the page to the cache
+            else:
+                # Find the page in the cache that will not be used for the longest time in the future
+                farthest_index = 0  # Index of the page to replace
+                farthest_use = -1  # How far in the future the page will be used
+
+                for j in range(capacity):
+                    # If a page is not used in the future, replace it immediately
+                    if cache[j] not in pages[i + 1:]:
+                        farthest_index = j
+                        break
+                    else:
+                        next_use = pages[i + 1:].index(cache[j])
+                        if next_use > farthest_use:
+                            farthest_use = next_use
+                            farthest_index = j
+
+                # Replace the farthest used page with the current page
+                cache[farthest_index] = pages[i]
+
+        # Print the current state of the cache
+        print(f"Cache after accessing {pages[i]}: {cache}")
+
+    return page_faults
+
+# Example usage
+pages = [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1]
+capacity = 3
+
+# Run the optimal page replacement algorithm and print the total page faults
+page_faults = optimal_page_replacement(pages, capacity)
+print(f"Total page faults: {page_faults}")

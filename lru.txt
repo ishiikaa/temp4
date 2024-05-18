@@ -1,0 +1,29 @@
+def lru_page_replacement(pages, capacity):
+    cache = []
+    page_faults = 0
+
+    for page in pages:
+        if page in cache:
+            # Page is already in cache, remove it
+            cache.remove(page)
+        else:
+            # Page is not in cache, page fault occurs
+            page_faults += 1
+            if len(cache) == capacity:
+                # Cache is full, remove the least recently used page
+                cache.pop(0)
+
+        # Add the current page to the end of the cache
+        cache.append(page)
+        
+        # Print the current state of the cache
+        print(f"Cache: {cache}")
+
+    return page_faults
+
+# Example usage
+pages = [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5]
+capacity = 3
+
+page_faults = lru_page_replacement(pages, capacity)
+print(f"Total page faults: {page_faults}")

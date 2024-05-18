@@ -1,0 +1,19 @@
+.MODEL
+.STACK 100H
+.DATA
+  ARR1 DB 4, 6, 7, 9, 2
+  SUM DB 0
+MAIN PROC
+	MOV AX, @DATA
+	MOV DS, AX
+	
+	MOV SI, OFFSET(ARR1)
+	MOV CX, 5
+
+	LOOP1:
+	MOV DL, [SI]
+	ADD SUM, DL
+	INC SI
+
+	LOOP L1 ; command for looping
+	

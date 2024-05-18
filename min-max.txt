@@ -1,0 +1,30 @@
+include 'emu8086.inc'
+org 100h
+
+.model small
+.data
+arr db 8,5,3,6,2  ; Array with 5 elements
+.code
+main proc
+mov ax, @data
+mov ds, ax
+mov si, offset arr  ; Load array address into SI
+mov cx, 5           ; Number of elements
+mov bl, [si]        ; First element into BL
+loopA:
+cmp [si], bl        ; Compare current element with BL
+jle small           ; If current element <= BL, jump to small
+campare:            ; Continue loop
+inc si              ; Move to next element
+loop loopA          ; Repeat until CX is 0
+small:
+mov bl, [si]        ; Update BL with new smallest element
+print "Smallest Value in Array:" ; Print message
+add bl, 48          ; Convert number to ASCII
+mov dl, bl          ; Move ASCII value to DL
+mov ah, 2           ; Set DOS function for printing
+int 21h             ; Call DOS interrupt to print
+mov ah, 4ch         ; DOS function to terminate program
+int 21h             ; Call DOS interrupt to terminate
+main endp
+end main

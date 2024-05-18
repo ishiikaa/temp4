@@ -1,0 +1,22 @@
+def fifo_page_replacement(pages, capacity):
+    cache = []
+    page_faults = 0
+
+    for page in pages:
+        if page not in cache:
+            page_faults += 1
+            if len(cache) == capacity:
+                cache.pop(0)  # Remove the oldest page
+            cache.append(page)  # Add the new page
+        
+        # Print the current state of the cache
+        print(f"Cache: {cache}")
+
+    return page_faults
+
+# Example usage
+pages = [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5]
+capacity = 3
+
+page_faults = fifo_page_replacement(pages, capacity)
+print(f"Total page faults: {page_faults}")
